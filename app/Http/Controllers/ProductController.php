@@ -24,7 +24,7 @@ class ProductController extends Controller
     $product->status = 'tersedia';
     $product->save();
 
-    return redirect('/products');  // ganti ini
+    return redirect('/products');  
 }
 
     public function update($id)
@@ -34,7 +34,7 @@ class ProductController extends Controller
     $product->price = 75000;
     $product->save();
 
-    return redirect('/products');  // ganti ini
+    return redirect('/products');  
 }
 
 public function delete($id)
@@ -42,6 +42,6 @@ public function delete($id)
     $product = Produk::find($id);
     $product->delete();
 
-    return redirect('/products');  // ganti ini
+    return redirect('/products'); 
 }
 }
