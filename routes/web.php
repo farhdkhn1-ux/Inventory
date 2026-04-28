@@ -9,3 +9,6 @@ Route::get('/', function () {
 
 });
 Route::get('/products', [ProductController::class, 'index'])->name('products.index');
+Route::get('/products/insert', [ProductController::class, 'insert']);
+Route::get('/products/update/{id}', [ProductController::class, 'update']);
+Route::get('/products/delete/{id}', [ProductController::class, 'delete']);
