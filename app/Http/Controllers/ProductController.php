@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use App\Models\Produk;
 use Illuminate\Http\Request;
 
@@ -13,8 +14,30 @@ class ProductController extends Controller
         return view('products.index', compact('products'));
     }
 
-    public function insert()
+    public function insert(Request $request)
 {
+    if ($request->isMethod('post')) {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'status' => 'nullable|string|in:tersedia,habis',
+        ]);
+
+        Produk::create([
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'category_id' => $request->category_id,
+            'description' => '',
+            'status' => $request->status ?: 'tersedia',
+        ]);
+
+        return redirect('/products')->with('success', 'Product created successfully.');
+    }
+
+    // If GET, create with default values
     $product = new Produk();
     $product->category_id = 1;
     $product->name = 'Nama Produk Baru';
@@ -24,18 +47,39 @@ class ProductController extends Controller
     $product->status = 'tersedia';
     $product->save();
 
-    return redirect('/products');  
+    return redirect('/products');
 }
 
-    public function update($id)
-{
-    $product = Produk::find($id);
-    $product->name = 'Nama Produk Diupdate';
-    $product->price = 75000;
-    $product->save();
+    public function edit($id)
+    {
+        $product = Produk::findOrFail($id);
+        $categories = Category::all();
+        return view('products.create', compact('categories', 'product'));
+    }
 
-    return redirect('/products');  
-}
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'price' => 'required|numeric|min:0',
+            'stock' => 'required|integer|min:0',
+            'category_id' => 'required|exists:categories,id',
+            'status' => 'nullable|string|in:tersedia,habis',
+        ]);
+
+        $product = Produk::findOrFail($id);
+        $product->update([
+            
+            'name' => $request->name,
+            'price' => $request->price,
+            'stock' => $request->stock,
+            'category_id' => $request->category_id,
+            'description' => '',
+            'status' => $request->status ?: 'tersedia',
+        ]);
+
+        return redirect('/products')->with('success', 'Product updated successfully.');
+    }
 
 public function delete($id)
 {
@@ -43,5 +87,32 @@ public function delete($id)
     $product->delete();
 
     return redirect('/products'); 
+}
+public function create()
+{
+    $categories = Category::all();
+    return view('products.create', compact('categories'));
+}
+
+public function store(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'price' => 'required|numeric|min:0',
+        'stock' => 'required|integer|min:0',
+        'category_id' => 'required|exists:categories,id',
+        'status' => 'nullable|string|in:tersedia,habis',
+    ]);
+
+    Produk::create([
+        'name' => $request->name,
+        'price' => $request->price,
+        'stock' => $request->stock,
+        'category_id' => $request->category_id,
+        'description' => '',
+        'status' => $request->status ?: 'tersedia',
+    ]);
+
+    return redirect('/products')->with('success', 'Product created successfully.');
 }
 }

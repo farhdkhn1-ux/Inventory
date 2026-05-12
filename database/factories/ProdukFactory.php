@@ -19,7 +19,7 @@ class ProdukFactory extends Factory
     public function definition(): array
 {
     return [
-        'category_id' => Category::inRandomOrder()->first()->id,
+        'category_id' => Category::pluck('id')->random(),
         'name' => $this->faker->word(),
         'price' => $this->faker->numberBetween(10000, 100000),
         'stock' => $this->faker->numberBetween(1, 100),

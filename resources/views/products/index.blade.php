@@ -2,12 +2,13 @@
 
 @section('content')
 <h1>Daftar Barang Inventaris</h1>
-
-<a href="/products/insert" class="btn btn-primary mb-3">Tambah Data Otomatis</a>
+<a href="/products/insert" class="btn btn-primary mb-3">Tambah Data otomatis </a>
+<a href="/create-product" class="btn btn-primary mb-3">Tambah Data </a>
 
 <table class="table table-striped">
     <thead>
         <tr>
+            <th>No</th>
             <th>Nama Barang</th>
             <th>Kategori</th>
             <th>Harga</th>
@@ -20,6 +21,7 @@
     <tbody>
         @foreach($products as $p)
         <tr>
+            <td>{{ $products->firstItem() + $loop->index }}</td>
             <td>{{ $p->name }}</td>
             <td>{{ $p->category->name }}</td>
             <td>Rp {{ number_format($p->price) }}</td>
