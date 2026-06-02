@@ -6,8 +6,7 @@ use App\Http\Controllers\CategoryController;
 // Route::resource otomatis akan membuat 7 rute CRUD standar (index,
 
 Route::get('/', function () {
-    return view('welcome');
-
+    return view('products.home');
 
 });
 
@@ -22,5 +21,5 @@ Route::get('/products/delete/{id}', [ProductController::class, 'delete']);
 Route::get('/create-product', [ProductController::class, 'create']);
 
 Route::get('/hello', function () {
-    return view('products.hello');
+    return view('products.home');
 });

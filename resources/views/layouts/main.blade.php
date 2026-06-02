@@ -9,14 +9,20 @@
 <body class="d-flex flex-column min-vh-100">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <a class="navbar-brand" href="#">InventarisKu</a>
-            <div class="collapse navbar-collapse">
+            <a class="navbar-brand" href="/">Inventory App</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar" aria-controls="mainNavbar" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('products*') ? 'active' : '' }}" href="{{ route('products.index') }}" @if(Request::is('products*')) aria-current="page"@endif>Produk</a>
+                        <a class="nav-link {{ Request::is('/') ? 'active' : '' }}" href="{{ url('/') }}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}" href="{{ route('categories.index') }}" @if(Request::is('categories*')) aria-current="page"@endif>Kategori</a>
+                        <a class="nav-link {{ Request::is('products*') ? 'active' : '' }}" href="{{ route('products.index') }}" @if(Request::is('products*')) aria-current="page"@endif>Product</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}" href="{{ route('categories.index') }}" @if(Request::is('categories*')) aria-current="page"@endif>Category</a>
                     </li>
                 </ul>
             </div>
