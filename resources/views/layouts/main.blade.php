@@ -25,6 +25,22 @@
                         <a class="nav-link {{ Request::is('categories*') ? 'active' : '' }}" href="{{ route('categories.index') }}" @if(Request::is('categories*')) aria-current="page"@endif>Category</a>
                     </li>
                 </ul>
+                <div class="d-flex align-items-center">
+                    @auth
+                        <span class="navbar-text text-white me-3">
+                            Halo, <strong>{{ Auth::user()->name }}</strong>
+                            <span class="badge bg-{{ Auth::user()->role === 'admin' ? 'danger' : 'secondary' }}">
+                                {{ Auth::user()->role }}
+                            </span>
+                        </span>
+                        <form method="POST" action="{{ route('logout') }}" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-light btn-sm">Logout</button>
+                        </form>
+                    @else
+                        <a href="{{ route('login') }}" class="btn btn-outline-light btn-sm">Login</a>
+                    @endauth
+                </div>
             </div>
         </div>
     </nav>

@@ -81,13 +81,14 @@ class ProductController extends Controller
         return redirect('/products')->with('success', 'Product updated successfully.');
     }
 
-public function delete($id)
+public function destroy($id)
 {
-    $product = Produk::find($id);
+    $product = Produk::findOrFail($id);
     $product->delete();
 
-    return redirect('/products'); 
+    return redirect()->route('products.index')->with('success', 'Product deleted successfully.');
 }
+
 public function create()
 {
     $categories = Category::all();

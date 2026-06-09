@@ -3,7 +3,9 @@
 @section('content')
     <div class="d-flex justify-content-between mb-3">
         <h2>Daftar Kategori</h2>
-        <a href="{{ route('categories.create') }}" class="btn btn-primary">+ Tambah Kategori</a>
+        @if(Auth::check() && Auth::user()->role === 'admin')
+            <a href="{{ route('categories.create') }}" class="btn btn-primary">+ Tambah Kategori</a>
+        @endif
     </div>
 
     @if (session('success'))
@@ -24,12 +26,16 @@
                     <td>{{ $index + 1 }}</td>
                     <td>{{ $cat->name }}</td>
                     <td>
-                        <a href="{{ route('categories.edit', $cat->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('categories.destroy', $cat->id) }}" method="POST" class="d-inline">
-                            @csrf
-                            @method('DELETE')
-                            <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus Kategori ini?')">Hapus</button>
-                        </form>
+                        @if(Auth::check() && Auth::user()->role === 'admin')
+                            <a href="{{ route('categories.edit', $cat->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('categories.destroy', $cat->id) }}" method="POST" class="d-inline">
+                                @csrf
+                                @method('DELETE')
+                                <button class="btn btn-sm btn-danger" onclick="return confirm('Hapus Kategori ini?')">Hapus</button>
+                            </form>
+                        @else
+                            <span class="text-muted">Hanya admin</span>
+                        @endif
                     </td>
                 </tr>
             @endforeach
